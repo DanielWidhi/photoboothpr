@@ -1,5 +1,5 @@
 <?php
-	include 'koneksi.php';
+include 'koneksi.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,31 +13,31 @@
 </head>
 <body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
     <?php
-		$photos = [];
-		
-		if(isset($_GET["id"])){
-			$id = $_GET["id"];
-		
-			$q = $koneksi->query("
-				SELECT * FROM photo_list WHERE ul_id='".$id."'
+$photos = [];
+
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+
+    $q = $koneksi->query("
+				SELECT * FROM photo_list WHERE ul_id='" . $id . "'
 			");
-			
-			while($d = $q->fetch_array()){
-				$data = array();
-				
-				$data["path"] = $d["pl_path"];
-				$data["name"] = basename($d["pl_path"]);
-				array_push($photos, $data);
-			}
-		}
-    ?>
+
+    while ($d = $q->fetch_array()) {
+        $data = array();
+
+        $data["path"] = $d["pl_path"];
+        $data["name"] = basename($d["pl_path"]);
+        array_push($photos, $data);
+    }
+}
+?>
     <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 justify-center">
-		<?php if(empty($photos)){ ?>
+		<?php if (empty($photos)) {?>
 			<div class="">
-				<img src="uploads/PR_Wfix.png" alt="PR Wedding" class="mx-auto mb-4 w-48 h-48">
+				<img src="uploads/Logo1b.png" alt="PR Wedding" class="mx-auto mb-4 w-48 h-48">
 				<h1 class="justify-center">Tidak ada foto yang tersedia</h1>
 			</div>
-		<?php }else{ ?>
+		<?php } else {?>
 			<?php foreach ($photos as $photo): ?>
 				<div class="flex flex-col items-center p-4 bg-white shadow-lg rounded-lg">
 					<img src="<?php echo htmlspecialchars($photo['path']); ?>" alt="Photo Thumbnail" class="w-32 h-32 object-cover rounded-lg mb-4">
@@ -45,8 +45,8 @@
 						Download
 					</a>
 				</div>
-			<?php endforeach; ?>
-		<?php } ?>
+			<?php endforeach;?>
+		<?php }?>
     </div>
 </body>
 </html>

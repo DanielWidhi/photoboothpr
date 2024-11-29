@@ -1,9 +1,9 @@
 <!-- auth.php -->
 <?php
-session_start();	
+session_start();
 
 // Define a static password (for demo purposes only)
-$static_password = "PR17s3pt2024";
+$static_password = "GDPARTSTUDIO";
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xs">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-            <img src="uploads/PR_Wfix.png" alt="Logo" class="w-24 h-24">
+            <img src="uploads/Logo1b.png" alt="Logo" class="w-24 h-24">
         </div>
 
         <!-- Authentication Form -->
