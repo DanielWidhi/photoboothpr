@@ -1,0 +1,29 @@
+# Turn on the Rewrite Engine
+RewriteEngine On
+RewriteRule ^showqr/([0-9]+)$ photoboothpr/photoboothpr/showqr.php?id=$1 [L]
+
+# Set the default index file
+DirectoryIndex index.php
+
+# Remove .php extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ $1.php [L]
+
+# Ensure users can still access the clean URLs without the .php extension
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.php\ HTTP/
+RewriteRule ^([^.]+)\.php$ /$1 [R=301,L]
+
+# Redirect all other requests to index.php (for routing purposes)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+# Deny access to .htaccess files
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Disable directory browsing
+Options -Indexes
