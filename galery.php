@@ -98,16 +98,75 @@ if (isset($_POST['delete_ul_id'])) {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 30px rgba(0,0,0,0.15);
         }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            .mobile-nav {
+                display: block;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            .btn-text {
+                display: none;
+            }
+            .mobile-nav-items {
+                display: flex;
+                justify-content: space-around;
+                padding: 1rem;
+            }
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #666;
+                font-size: 0.8rem;
+            }
+            .mobile-nav-item i {
+                font-size: 1.5rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- Responsive Header with Glass Effect -->
-    <nav class="bg-white/80 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
+<body class="min-h-screen pb-16 md:pb-0">
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav bg-white/80 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
         <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16 md:h-20">
+            <div class="flex items-center justify-between py-4 h-20">
                 <div class="flex items-center space-x-8">
-                    <img src="uploads/ukm.png" alt="UKM Logo" class="h-10 md:h-14 logo-animation">
-                    <img src="uploads/Logo1b.png" alt="Secondary Logo" class="h-10 md:h-14 logo-animation">
+                    <img src="uploads/ukm.png" alt="UKM Logo" class="h-14 logo-animation">
+                    <img src="uploads/Logo1b.png" alt="Secondary Logo" class="h-14 logo-animation">
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/form" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
@@ -124,8 +183,31 @@ if (isset($_POST['delete_ul_id'])) {
         </div>
     </nav>
 
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav shadow-lg">
+        <div class="mobile-nav-items">
+            <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/form" class="mobile-nav-item">
+                <i class="fas fa-plus"></i>
+                <span>Add</span>
+            </a>
+            <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/showqr" class="mobile-nav-item">
+                <i class="fas fa-qrcode"></i>
+                <span>QR</span>
+            </a>
+            <a href="galery.php" class="mobile-nav-item">
+                <i class="fas fa-images"></i>
+                <span>Gallery</span>
+            </a>
+            <a href="https://qrbooth.gdpartstudio.my.id" class="mobile-nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Rest of the content remains the same -->
     <!-- Spacer for fixed header -->
-    <div class="h-24 md:h-32"></div>
+    <div class="h-32"></div>
 
     <!-- SweetAlert Notifications -->
     <?php if (isset($_GET['message'])): ?>
@@ -140,7 +222,6 @@ if (isset($_POST['delete_ul_id'])) {
                     timer: 3000,
                     timerProgressBar: true
                 }).then(() => {
-                    // Remove message parameter from URL after showing alert
                     const url = new URL(window.location.href);
                     url.searchParams.delete('message');
                     window.history.replaceState({}, '', url);
@@ -154,7 +235,6 @@ if (isset($_POST['delete_ul_id'])) {
                     timer: 3000,
                     timerProgressBar: true
                 }).then(() => {
-                    // Remove message parameter from URL after showing alert
                     const url = new URL(window.location.href);
                     url.searchParams.delete('message');
                     window.history.replaceState({}, '', url);
@@ -174,29 +254,29 @@ $query = $koneksi->query("SELECT ul.ul_id, ul.ul_name, GROUP_CONCAT(pl.pl_path S
 
 if ($query->num_rows == 0) {
     ?>
-            <div class="flex flex-col items-center justify-center min-h-[60vh] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-12 transform hover:scale-105 transition-all duration-500">
-                <img src="uploads/Logo1b.png" alt="PR Wedding" class="w-56 h-56 mb-8 animate-bounce">
-                <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">No photos available</h1>
-                <p class="mt-6 text-2xl text-gray-600 text-center">Start adding your amazing photos!</p>
+            <div class="flex flex-col items-center justify-center min-h-[60vh] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-6 md:p-12 transform hover:scale-105 transition-all duration-500">
+                <img src="uploads/Logo1b.png" alt="PR Wedding" class="w-32 md:w-56 h-32 md:h-56 mb-8 animate-bounce">
+                <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">No photos available</h1>
+                <p class="mt-4 md:mt-6 text-xl md:text-2xl text-gray-600 text-center">Start adding your amazing photos!</p>
             </div>
             <?php
 } else {
     while ($row = $query->fetch_assoc()) {
         $photos = explode(',', $row['photo_paths']);
         ?>
-                <div class="mb-12 gallery-container rounded-3xl p-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">
+                <div class="mb-8 md:mb-12 gallery-container rounded-3xl p-4 md:p-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <h2 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 text-center md:text-left">
                             <?php echo htmlspecialchars($row['ul_name']); ?>
                         </h2>
-                        <form method="POST" onsubmit="return confirmDelete(event)">
+                        <form method="POST" onsubmit="return confirmDelete(event)" class="w-full md:w-auto">
                             <input type="hidden" name="delete_ul_id" value="<?php echo htmlspecialchars($row['ul_id']); ?>">
-                            <button type="submit" class="bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-full hover:from-red-600 hover:to-pink-600 transition duration-300 transform hover:scale-105 shadow-lg">
+                            <button type="submit" class="w-full md:w-auto bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-full hover:from-red-600 hover:to-pink-600 transition duration-300 transform hover:scale-105 shadow-lg">
                                 <i class="fas fa-trash-alt mr-2"></i> Delete Group
                             </button>
                         </form>
                     </div>
-                    <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-4 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                         <?php foreach ($photos as $photo_path) {
             $extension = strtolower(pathinfo($photo_path, PATHINFO_EXTENSION));
             ?>
@@ -212,10 +292,10 @@ if ($query->num_rows == 0) {
                                              class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
                                     <?php endif;?>
                                 </div>
-                                <div class="p-6">
-                                    <div class="flex justify-end">
+                                <div class="p-4 md:p-6">
+                                    <div class="flex justify-center md:justify-end">
                                         <a href="<?php echo htmlspecialchars($photo_path); ?>" download
-                                           class="bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-3 rounded-full hover:from-blue-500 hover:to-purple-600 transition duration-300 transform hover:scale-105 shadow-lg">
+                                           class="w-full md:w-auto bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-3 rounded-full hover:from-blue-500 hover:to-purple-600 transition duration-300 transform hover:scale-105 shadow-lg text-center">
                                             <i class="fas fa-download mr-2"></i> Download
                                         </a>
                                     </div>
@@ -230,22 +310,22 @@ if ($query->num_rows == 0) {
 }
 ?>
     </div>
-    <div class="h-16 md:h-12"></div>
+    <div class="h-16"></div>
 
     <!-- Footer with Glass Effect -->
-    <footer class="mt-12 py-8 bg-white/80 backdrop-blur-md shadow-inner">
+    <footer class="mt-12 py-6 md:py-8 bg-white/80 backdrop-blur-md shadow-inner">
         <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-center space-x-8 mb-6">
+            <div class="flex justify-center space-x-6 md:space-x-8 mb-4 md:mb-6">
                 <a href="https://instagram.com/gdpartstudio" target="_blank"
-                   class="text-3xl text-pink-500 hover:text-pink-600 transition-all duration-300 transform hover:scale-125">
+                   class="text-2xl md:text-3xl text-pink-500 hover:text-pink-600 transition-all duration-300 transform hover:scale-125">
                     <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://wa.me/6281339172556" target="_blank"
-                   class="text-3xl text-green-500 hover:text-green-600 transition-all duration-300 transform hover:scale-125">
+                   class="text-2xl md:text-3xl text-green-500 hover:text-green-600 transition-all duration-300 transform hover:scale-125">
                     <i class="fab fa-whatsapp"></i>
                 </a>
             </div>
-            <p class="text-gray-700 text-lg mb-2">Made with <span class="text-red-500 heart text-2xl">❤</span> by GDPARTSTUDIO</p>
+            <p class="text-base md:text-lg text-gray-700 mb-2">Made with <span class="text-red-500 heart text-xl md:text-2xl">❤</span> by GDPARTSTUDIO</p>
         </div>
     </footer>
 
