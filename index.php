@@ -3,8 +3,8 @@
 session_start();
 
 // Define a static password (for demo purposes only)
-// $static_password = "g";
-$static_password = "GDPARTSTUDIO";
+$static_password = "g";
+// $static_password = "GDPARTSTUDIO";
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($entered_password === $static_password) {
         // Password matches, set the authenticated session variable
         $_SESSION['authenticated'] = true;
-        header("Location: form"); // Redirect to the authenticated page
+        header("Location: showqr"); // Redirect to the authenticated page
         exit;
     } else {
         $error = "Invalid password. Try again.";
