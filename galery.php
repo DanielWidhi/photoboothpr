@@ -40,13 +40,13 @@ if (isset($_POST['delete_ul_id'])) {
         // Commit transaction
         $koneksi->commit();
 
-        header("Location: galery.php?message=deleted");
+        header("Location: galery?message=deleted");
         exit();
 
     } catch (Exception $e) {
         // Rollback on error
         $koneksi->rollback();
-        header("Location: galery.php?message=error");
+        header("Location: galery?message=error");
         exit();
     }
 }
