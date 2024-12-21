@@ -3,8 +3,9 @@
 session_start();
 
 // Define a static password (for demo purposes only)
-$static_password = "g";
 // $static_password = "GDPARTSTUDIO";
+$static_password = "SERTIJAB25";
+// $static_password = "g";
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
