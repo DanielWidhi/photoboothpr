@@ -212,11 +212,11 @@ while ($d = $q->fetch_array()) {
             params: {'name': function() { return $('#name').val(); }},
             uploadMultiple: true,
             autoProcessQueue: false,
-            parallelUploads: 10,
+            parallelUploads: 100,
             acceptedFiles: ".jpg, .jpeg, .png, .mp4, .avi",
             addRemoveLinks: true,
             clickable: true,
-            maxFilesize: 100,
+            maxFilesize: 250,
             init: function () {
                 var dz = this;
 
