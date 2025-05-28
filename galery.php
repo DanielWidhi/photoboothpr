@@ -1,55 +1,55 @@
 <?php
-include 'koneksi.php';
-include 'auth.php';
+    include 'koneksi.php';
+    include 'auth.php';
 
-// Require authentication
-requireAdminAuth();
+    // Require authentication
+    requireAdminAuth();
 
-// Handle delete request
-if (isset($_POST['delete_ul_id'])) {
-    $ul_id = intval($_POST['delete_ul_id']); // Sanitize input
+    // Handle delete request
+    if (isset($_POST['delete_ul_id'])) {
+        $ul_id = intval($_POST['delete_ul_id']); // Sanitize input
 
-    try {
-        // Start transaction
-        $koneksi->begin_transaction();
+        try {
+            // Start transaction
+            $koneksi->begin_transaction();
 
-        // Get photos to delete
-        $photoQuery = $koneksi->prepare("SELECT pl_path FROM photo_list WHERE ul_id = ?");
-        $photoQuery->bind_param("i", $ul_id);
-        $photoQuery->execute();
-        $result = $photoQuery->get_result();
+            // Get photos to delete
+            $photoQuery = $koneksi->prepare("SELECT pl_path FROM photo_list WHERE ul_id = ?");
+            $photoQuery->bind_param("i", $ul_id);
+            $photoQuery->execute();
+            $result = $photoQuery->get_result();
 
-        // Delete physical files
-        while ($photo = $result->fetch_assoc()) {
-            $filePath = $photo['pl_path'];
-            if (file_exists($filePath)) {
-                unlink($filePath);
+            // Delete physical files
+            while ($photo = $result->fetch_assoc()) {
+                $filePath = $photo['pl_path'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
             }
+
+            // Delete from photo_list
+            $deletePhotosQuery = $koneksi->prepare("DELETE FROM photo_list WHERE ul_id = ?");
+            $deletePhotosQuery->bind_param("i", $ul_id);
+            $deletePhotosQuery->execute();
+
+            // Delete from undangan_list
+            $deleteUndanganQuery = $koneksi->prepare("DELETE FROM undangan_list WHERE ul_id = ?");
+            $deleteUndanganQuery->bind_param("i", $ul_id);
+            $deleteUndanganQuery->execute();
+
+            // Commit transaction
+            $koneksi->commit();
+
+            header("Location: galery?message=deleted");
+            exit();
+
+        } catch (Exception $e) {
+            // Rollback on error
+            $koneksi->rollback();
+            header("Location: galery?message=error");
+            exit();
         }
-
-        // Delete from photo_list
-        $deletePhotosQuery = $koneksi->prepare("DELETE FROM photo_list WHERE ul_id = ?");
-        $deletePhotosQuery->bind_param("i", $ul_id);
-        $deletePhotosQuery->execute();
-
-        // Delete from undangan_list
-        $deleteUndanganQuery = $koneksi->prepare("DELETE FROM undangan_list WHERE ul_id = ?");
-        $deleteUndanganQuery->bind_param("i", $ul_id);
-        $deleteUndanganQuery->execute();
-
-        // Commit transaction
-        $koneksi->commit();
-
-        header("Location: galery?message=deleted");
-        exit();
-
-    } catch (Exception $e) {
-        // Rollback on error
-        $koneksi->rollback();
-        header("Location: galery?message=error");
-        exit();
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -169,13 +169,13 @@ if (isset($_POST['delete_ul_id'])) {
                     <img src="uploads/Logo1b.png" alt="Secondary Logo" class="h-14 logo-animation">
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/form" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/form" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-plus mr-2"></i>Add Photos
                     </a>
-                    <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/showqr" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-qrcode mr-2"></i>Show QR
                     </a>
-                    <a href="https://qrbooth.gdpartstudio.my.id" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="https://gdpbooth.gdpartstudio.my.id" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>
@@ -186,19 +186,19 @@ if (isset($_POST['delete_ul_id'])) {
     <!-- Mobile Navigation -->
     <nav class="mobile-nav shadow-lg">
         <div class="mobile-nav-items">
-            <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/form" class="mobile-nav-item">
+            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/form" class="mobile-nav-item">
                 <i class="fas fa-plus"></i>
                 <span>Add</span>
             </a>
-            <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/showqr" class="mobile-nav-item">
+            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="mobile-nav-item">
                 <i class="fas fa-qrcode"></i>
                 <span>QR</span>
             </a>
-            <a href="galery.php" class="mobile-nav-item">
+            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/galery.php" class="mobile-nav-item">
                 <i class="fas fa-images"></i>
                 <span>Gallery</span>
             </a>
-            <a href="https://qrbooth.gdpartstudio.my.id" class="mobile-nav-item">
+            <a href="https://gdpbooth.gdpartstudio.my.id" class="mobile-nav-item">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
@@ -239,31 +239,31 @@ if (isset($_POST['delete_ul_id'])) {
                     url.searchParams.delete('message');
                     window.history.replaceState({}, '', url);
                 });
-            <?php endif;?>
+            <?php endif; ?>
         });
     </script>
-    <?php endif;?>
+    <?php endif; ?>
 
     <div class="container mx-auto px-4 mt-8">
         <?php
-$query = $koneksi->query("SELECT ul.ul_id, ul.ul_name, GROUP_CONCAT(pl.pl_path SEPARATOR ',') AS photo_paths
+            $query = $koneksi->query("SELECT ul.ul_id, ul.ul_name, GROUP_CONCAT(pl.pl_path SEPARATOR ',') AS photo_paths
                           FROM photo_list pl
                           LEFT JOIN undangan_list ul ON pl.ul_id = ul.ul_id
                           GROUP BY ul.ul_id, ul.ul_name
                           ORDER BY ul.ul_name ASC");
 
-if ($query->num_rows == 0) {
-    ?>
+            if ($query->num_rows == 0) {
+            ?>
             <div class="flex flex-col items-center justify-center min-h-[60vh] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-6 md:p-12 transform hover:scale-105 transition-all duration-500">
                 <img src="uploads/Logo1b.png" alt="PR Wedding" class="w-32 md:w-56 h-32 md:h-56 mb-8 animate-bounce">
                 <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-center">No photos available</h1>
                 <p class="mt-4 md:mt-6 text-xl md:text-2xl text-gray-600 text-center">Start adding your amazing photos!</p>
             </div>
             <?php
-} else {
-    while ($row = $query->fetch_assoc()) {
-        $photos = explode(',', $row['photo_paths']);
-        ?>
+                } else {
+                    while ($row = $query->fetch_assoc()) {
+                        $photos = explode(',', $row['photo_paths']);
+                    ?>
                 <div class="mb-8 md:mb-12 gallery-container rounded-3xl p-4 md:p-8">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h2 class="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 text-center md:text-left">
@@ -278,8 +278,8 @@ if ($query->num_rows == 0) {
                     </div>
                     <div class="grid gap-4 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                         <?php foreach ($photos as $photo_path) {
-            $extension = strtolower(pathinfo($photo_path, PATHINFO_EXTENSION));
-            ?>
+                                        $extension = strtolower(pathinfo($photo_path, PATHINFO_EXTENSION));
+                                    ?>
                             <div class="card-hover bg-white/90 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden">
                                 <div class="aspect-square overflow-hidden">
                                     <?php if ($extension == 'mp4' || $extension == 'avi'): ?>
@@ -290,7 +290,7 @@ if ($query->num_rows == 0) {
                                     <?php else: ?>
                                         <img src="<?php echo htmlspecialchars($photo_path); ?>" alt="Photo"
                                              class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
-                                    <?php endif;?>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="p-4 md:p-6">
                                     <div class="flex justify-center md:justify-end">
@@ -302,13 +302,13 @@ if ($query->num_rows == 0) {
                                 </div>
                             </div>
                         <?php
-}?>
+                        }?>
                     </div>
                 </div>
                 <?php
-}
-}
-?>
+                    }
+                    }
+                ?>
     </div>
     <div class="h-16"></div>
 

@@ -1,7 +1,7 @@
 <?php
-include 'koneksi.php';
-require 'auth.php';
-requireAdminAuth();
+    include 'koneksi.php';
+    require 'auth.php';
+    requireAdminAuth();
 ?>
 
 <!DOCTYPE html>
@@ -101,12 +101,12 @@ requireAdminAuth();
             <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
                 <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                     <li>
-                        <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/showqr" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                             <i class="fas fa-qrcode mr-2"></i>Show QR
                         </a>
                     </li>
                     <li>
-                        <a href="https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/galery" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                        <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/galery" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                             <i class="fas fa-images mr-2"></i>Gallery
                         </a>
                     </li>
@@ -151,21 +151,21 @@ requireAdminAuth();
                 </thead>
                 <tbody>
                     <?php
-$q = $koneksi->query("
+                        $q = $koneksi->query("
                         SELECT *
                         FROM undangan_list a
                         ORDER BY ul_date DESC
                     ");
 
-while ($d = $q->fetch_array()) {
-    echo "
+                        while ($d = $q->fetch_array()) {
+                            echo "
                             <tr class='hover:bg-gray-50 transition-colors'>
                                 <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-700'>" . $d["ul_name"] . "</td>
                                 <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-700'>" . date("d/m/Y H:i:s", strtotime($d["ul_date"])) . "</td>
                             </tr>
                         ";
-}
-?>
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -182,7 +182,7 @@ while ($d = $q->fetch_array()) {
                     <i class="fab fa-whatsapp"></i>
                 </a>
             </div>
-            <p class="text-slate-50 mb-2">Made with <span class="text-red-500 heart">❤</span> by GDPARTSTUDIO</p>
+            <p class="text-slate-50 mb-2">Made with <span class="text-red-500 heart">❤</span> by PARTSTUDIO</p>
         </div>
     </footer>
 

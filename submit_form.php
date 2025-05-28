@@ -3,7 +3,7 @@ include 'koneksi.php';
 include 'plugins/phpqrcode/qrlib.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
+    $name          = $_POST['name'];
     $uploadedFiles = $_POST['uploadedFiles']; // Array of uploaded file paths
 
     if (empty($name)) {
@@ -42,13 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($last_id != "") {
         $qr_path = "qrcodes/" . $name . "_qrcode_" . date("U") . ".png";
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $host = $_SERVER['HTTP_HOST'];
+        $protocol = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $host     = $_SERVER['HTTP_HOST'];
 
-        $qr_content = 'https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/photoList?id=' . $last_id;
+        $qr_content = 'https://gdpbooth.gdpartstudio.my.id/photoboothpr/photoList?id=' . $last_id;
         // $qr_content = $protocol.$host.'/photoList?id='.$last_id;
 
-        if (!file_exists($qr_path)) {
+        if (! file_exists($qr_path)) {
             QRcode::png($qr_content, $qr_path);
 
             $koneksi->query("

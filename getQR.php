@@ -9,14 +9,14 @@ $qr = $koneksi->query("
 	")->fetch_array();
 
 $status = "n";
-$path = "https://qrbooth.gdpartstudio.my.id/photoboothpr/photoboothpr/";
-$name = "";
+$path   = "https://gdpbooth.gdpartstudio.my.id/photoboothpr/";
+$name   = "";
 if ($qr) {
     if ($qr["ul_qr"] != "") {
         if (file_exists($qr["ul_qr"])) {
             $status = "y";
-            $path = $qr["ul_qr"];
-            $name = $qr["ul_name"];
+            $path   = $qr["ul_qr"];
+            $name   = $qr["ul_name"];
         }
     }
 }
