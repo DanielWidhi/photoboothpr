@@ -1,29 +1,63 @@
-# Turn on the Rewrite Engine
-RewriteEngine On
-RewriteRule ^showqr/([0-9]+)$ photoboothpr/photoboothpr/showqr.php?id=$1 [L]
+# # Turn on the Rewrite Engine
+# RewriteEngine On
+# RewriteRule ^showqr/([0-9]+)$ photoboothpr/photoboothpr/showqr.php?id=$1 [L]
 
-# Set the default index file
+# # Set the default index file
+# DirectoryIndex index.php
+
+# # Remove .php extension from URLs
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^([^/]+)$ $1.php [L]
+
+# # Ensure users can still access the clean URLs without the .php extension
+# RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.php\ HTTP/
+# RewriteRule ^([^.]+)\.php$ /$1 [R=301,L]
+
+# # Redirect all other requests to index.php (for routing purposes)
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+# # Deny access to .htaccess files
+# <Files .htaccess>
+#     Order allow,deny
+#     Deny from all
+# </Files>
+
+# # Disable directory browsing
+# Options -Indexes
+
+
+# Aktifkan Rewrite Engine
+RewriteEngine On
+
+# Jadikan index.php sebagai file default direktori
 DirectoryIndex index.php
 
-# Remove .php extension from URLs
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^/]+)$ $1.php [L]
+# Aturan khusus untuk URL /showqr/
+RewriteRule ^showqr/([0-9]+)$ photoboothpr/photoboothpr/showqr.php?id=$1 [L]
 
-# Ensure users can still access the clean URLs without the .php extension
+# --- Aturan untuk URL Cantik (Menghilangkan .php) ---
+
+# 1. Alihkan paksa dari namafile.php ke /namafile
+# Contoh: Jika ada yang buka /kontak.php, langsung alihkan ke /kontak
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.php\ HTTP/
 RewriteRule ^([^.]+)\.php$ /$1 [R=301,L]
 
-# Redirect all other requests to index.php (for routing purposes)
+# 2. Tulis ulang URL cantik ke file PHP yang sebenarnya di server
+# Contoh: Jika user buka /kontak, server akan membuka file kontak.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+RewriteRule ^([^/]+)/?$ $1.php [L]
 
-# Deny access to .htaccess files
+# --- Pengaturan Keamanan ---
+
+# Nonaktifkan directory listing
+Options -Indexes
+
+# Lindungi file .htaccess agar tidak bisa diakses dari web
 <Files .htaccess>
     Order allow,deny
     Deny from all
 </Files>
-
-# Disable directory browsing
-Options -Indexes
