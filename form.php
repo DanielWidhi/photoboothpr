@@ -1,7 +1,7 @@
 <?php
     include 'koneksi.php';
-    require 'auth.php';
-    requireAdminAuth();
+    // require 'auth.php';
+    // requireAdminAuth();
 ?>
 
 <!DOCTYPE html>
