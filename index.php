@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($entered_password === $static_password) {
         // Password matches, set the authenticated session variable
         $_SESSION['authenticated'] = true;
-        header("Location: photoboothpr/showqr"); // Redirect to the authenticated page
+        header("Location:showqr"); // Redirect to the authenticated page
         exit;
     } else {
         $error = "Invalid password. Try again.";
