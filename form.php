@@ -216,7 +216,7 @@
             acceptedFiles: ".jpg, .jpeg, .png, .mp4, .avi",
             addRemoveLinks: true,
             clickable: true,
-            maxFilesize: 250,
+            maxFilesize: 1000,
             init: function () {
                 var dz = this;
 
