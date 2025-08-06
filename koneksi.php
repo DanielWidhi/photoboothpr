@@ -5,7 +5,7 @@ $servername = "localhost"; // Change to your server name
 $username = "gdpd2131_gdpbooth"; // Change to your database username
 $password = "gdpbooth"; // Change to your database password
 // $password = ""; // Change to your database password
-$password = "gdpd2131_u140154479_photobooth"; // Change to your database password
+// $password = "gdpd2131_u140154479_photobooth"; // Change to your database password
 // $database = "u140154479_photobooth"; // Change to your database name
 $database = "gdpd2131_u140154479_photobooth"; // Change to your database name
 
