@@ -1,12 +1,47 @@
 <?php
-    include 'koneksi.php';
-    session_start();
+session_start();
 
-    // Check if the user is authenticated
-    if (! isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
-        header("Location: login"); // Redirect to the login page if not authenticated
+// Password statis
+$static_password = "SERTIJAB25";
+
+// Proses login jika ada POST password
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password'])) {
+    $entered_password = $_POST['password'];
+    if ($entered_password === $static_password) {
+        $_SESSION['authenticated'] = true;
+        header("Location: showqr.php");
         exit;
+    } else {
+        $error = "Invalid password. Try again.";
     }
+}
+
+// Jika belum login, tampilkan form login
+if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Show QR</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-200">
+    <form method="POST" class="bg-white p-8 rounded shadow-md w-80">
+        <h2 class="text-2xl font-bold mb-6 text-center">Login Show QR</h2>
+        <?php if (!empty($error)): ?>
+            <div class="mb-4 text-red-500 text-center"><?php echo $error; ?></div>
+        <?php endif; ?>
+        <input type="password" name="password" placeholder="Password" class="w-full px-4 py-2 border rounded mb-4" required>
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+    </form>
+</body>
+</html>
+<?php
+    exit;
+}
+
+include 'koneksi.php'; // Tambahkan baris ini
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +118,7 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                 <li>
-                    <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                    <a href="showqr.php" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
                         <i class="fas fa-qrcode mr-2"></i>Show QR
                     </a>
                 </li>

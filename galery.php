@@ -1,9 +1,49 @@
 <?php
-    include 'koneksi.php';
-    include 'auth.php';
+    session_start();
 
-    // Require authentication
-    requireAdminAuth();
+    // Password statis
+    $static_password = "SERTIJAB25";
+
+    // Proses login jika ada POST password
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password'])) {
+        $entered_password = $_POST['password'];
+        if ($entered_password === $static_password) {
+            $_SESSION['authenticated'] = true;
+            header("Location: galery.php");
+            exit;
+        } else {
+            $error = "Invalid password. Try again.";
+        }
+    }
+
+    // Jika belum login, tampilkan form login
+    if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Gallery</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-200">
+    <form method="POST" class="bg-white p-8 rounded shadow-md w-80">
+        <h2 class="text-2xl font-bold mb-6 text-center">Login Gallery</h2>
+        <?php if (!empty($error)): ?>
+            <div class="mb-4 text-red-500 text-center"><?php echo $error; ?></div>
+        <?php endif; ?>
+        <input type="password" name="password" placeholder="Password" class="w-full px-4 py-2 border rounded mb-4" required>
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Login</button>
+    </form>
+</body>
+</html>
+<?php
+        exit;
+    }
+
+    include 'koneksi.php';
+    // include 'auth.php';
+    // requireAdminAuth();
 
     // Handle delete request
     if (isset($_POST['delete_ul_id'])) {
@@ -169,13 +209,13 @@
                     <img src="uploads/Logo1b.png" alt="Secondary Logo" class="h-14 logo-animation">
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/form" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="form.php" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-plus mr-2"></i>Add Photos
                     </a>
-                    <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="showqr.php" class="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-qrcode mr-2"></i>Show QR
                     </a>
-                    <a href="https://gdpbooth.gdpartstudio.my.id" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    <a href="index.php" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-6 py-2 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>
@@ -186,19 +226,19 @@
     <!-- Mobile Navigation -->
     <nav class="mobile-nav shadow-lg">
         <div class="mobile-nav-items">
-            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/form" class="mobile-nav-item">
+            <a href="form.php" class="mobile-nav-item">
                 <i class="fas fa-plus"></i>
                 <span>Add</span>
             </a>
-            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/showqr" class="mobile-nav-item">
+            <a href="showqr.php" class="mobile-nav-item">
                 <i class="fas fa-qrcode"></i>
                 <span>QR</span>
             </a>
-            <a href="https://gdpbooth.gdpartstudio.my.id/photoboothpr/galery.php" class="mobile-nav-item">
+            <a href="galery.php" class="mobile-nav-item">
                 <i class="fas fa-images"></i>
                 <span>Gallery</span>
             </a>
-            <a href="https://gdpbooth.gdpartstudio.my.id" class="mobile-nav-item">
+            <a href="index.php" class="mobile-nav-item">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
